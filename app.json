@@ -43,6 +43,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "cd9d67cb-d854-479d-91ae-fa6cb986fcb0"
+      }
+    },
+    "owner": "sonfon"
   }
 }

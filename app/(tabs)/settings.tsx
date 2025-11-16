@@ -1,31 +1,24 @@
 import Header from "@/components/Header";
-import Recording from "@/components/Recording";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-export default function Index() {
+export default function Settings() {
   return (
     <View style={styles.container}>
       <Header />
-      <Text style={styles.text}>Start Recording</Text>
-      <Recording />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-
     flex: 1,
-    flexDirection: "column",
-    alignItems: "center", // align items on the cross axis
-
     backgroundColor: "#25292e",
+    alignItems: "center", // align items on the cross axis
+    flexDirection: "column",
   },
   text: {
     color: "#fff",
     marginTop: 20,
-    fontSize: 24,
   },
   button: {
     fontSize: 20,
