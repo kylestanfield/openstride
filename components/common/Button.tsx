@@ -11,6 +11,7 @@ type Props = {
   iconName?: IconName;
   iconSize?: number;
   iconColor?: string;
+  clickFunction?: () => void;
 };
 
 export default function Button({
@@ -19,13 +20,14 @@ export default function Button({
   iconName,
   iconSize,
   iconColor,
+  clickFunction,
 }: Props) {
   if (theme === "primary") {
     return (
       <View style={[styles.buttonContainer, { marginTop: 20 }]}>
         <Pressable
           style={styles.button}
-          onPress={() => alert("You pressed a button.")}
+          onPress={clickFunction}
         >
           {iconName ? (
             <Ionicons

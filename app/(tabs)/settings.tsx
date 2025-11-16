@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/common/Header";
 import { StyleSheet, View } from "react-native";
 
 export default function Settings() {

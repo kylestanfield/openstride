@@ -1,12 +1,11 @@
-import Header from "@/components/Header";
-import Recording from "@/components/Recording";
+import Header from "@/components/common/Header";
+import Recording from "@/components/recording/Recording";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   return (
     <View style={styles.container}>
       <Header />
-      <Text style={styles.text}>Start Recording</Text>
       <Recording />
     </View>
   );
