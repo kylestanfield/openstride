@@ -1,26 +1,38 @@
 import { Text, View, StyleSheet } from "react-native";
 import RecordingFooter from "@/components/recording/RecordingFooter";
+import { LiveRunStats } from "@/components/recording/LiveRunStats";
 import * as Location from "expo-location";
 
 type Props = {
   onPauseClick: () => void;
   onStopClick: () => void;
   location: Location.LocationObject | null;
+  route: Location.LocationObject[]; // added route array
+  isRecording: boolean;
 };
 
 export default function RunInfo({
   onPauseClick,
   onStopClick,
   location,
+  route,
+  isRecording,
 }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Go Get 'Em Tiger!</Text>
-      {location ? (
+
+      {location && (
         <Text style={styles.text}>
-          Your location is {JSON.stringify(location)}
+          Your location: {location.coords.latitude.toFixed(5)},{" "}
+          {location.coords.longitude.toFixed(5)}
         </Text>
-      ) : null}
+      )}
+
+      {/* Live stats while recording */}
+      {isRecording && route.length > 1 && (
+        <LiveRunStats route={route} />
+      )}
 
       <RecordingFooter
         onPauseClick={onPauseClick}
@@ -31,7 +43,10 @@ export default function RunInfo({
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    padding: 16,
+    flex: 1,
+  },
   text: {
     color: "#fff",
     marginTop: 20,

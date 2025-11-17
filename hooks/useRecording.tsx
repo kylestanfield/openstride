@@ -1,5 +1,18 @@
+// This hook handles all the state and transitions used by the Recording component
+
 import { useState, useEffect } from "react";
-import { useGpsTracking } from "@/hooks/useGpsTracking";
+import {
+  convertLocationToPoint,
+  useGpsTracking,
+} from "@/hooks/useGpsTracking";
+import { Point, Route, useRouteRepository } from "./useRouteRepository";
+import {
+  computeDistance,
+  computeDuration,
+  computePace,
+} from "@/utils/RouteUtils";
+
+const { saveRouteWithPoints } = useRouteRepository();
 
 const START_COUNT = 3;
 
@@ -32,12 +45,37 @@ export const useRecording = () => {
     setIsCountingDown(false);
   };
 
-  const onStopClick = () => {
+  const onStopClick = async () => {
+    // Reset all state for the component back to defaults
     setIsRecording(false);
     setIsRecordingPaused(false);
     setIsCountingDown(false);
     setCurrentCountdown(START_COUNT);
     stopTracking();
+
+    if (route.length == 0) {
+      return;
+    }
+    const points: Point[] = route.map(convertLocationToPoint);
+
+    // Build Route object
+    const totalDistance = computeDistance(points); // sum distances between points
+    const duration = computeDuration(points); // last timestamp - first timestamp
+    const pace = computePace(totalDistance, duration); // optional
+
+    const newRoute: Route = {
+      id: 0,
+      start_time: points[0].timestamp,
+      duration,
+      distance: totalDistance,
+      pace,
+    };
+
+    try {
+      await saveRouteWithPoints(newRoute, points);
+    } catch (err) {
+      console.error("Failed to save run:", err);
+    }
   };
 
   useEffect(() => {

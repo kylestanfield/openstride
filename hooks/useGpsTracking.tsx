@@ -1,6 +1,20 @@
+// This hook handles interaction with the Location system from Expo.
+
 import { useState, useEffect } from "react";
 
 import * as Location from "expo-location";
+
+import { Point, Route } from "@/hooks/useRouteRepository";
+
+export const convertLocationToPoint = (
+  loc: Location.LocationObject,
+): Point => ({
+  id: 0, // SQLite will auto-increment
+  routeId: 0, // will set after inserting Route
+  timestamp: loc.timestamp,
+  latitude: loc.coords.latitude,
+  longitude: loc.coords.longitude,
+});
 
 export const useGpsTracking = () => {
   const [location, setLocation] =

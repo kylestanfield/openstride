@@ -27,6 +27,8 @@ export default function Recording() {
             onPauseClick={onPauseClick}
             onStopClick={onStopClick}
             location={location}
+            isRecording={isRecording}
+            route={route}
           ></RunInfo>
         </>
       ) : isCountingDown ? (
