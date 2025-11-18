@@ -38,3 +38,28 @@ TODO:
 4. View past runs in the Activities tab (different from Stats tab?)
 
 5. Use geolib instead of custom Haversine distance in the utils/RouteUtils.jsx file
+
+11/17/2025
+
+Extracted almost all logic out of the recording/runinfo/liverunstats components.
+Only formatting function is called from LiveRunStats. RunInfo and LiveRunStats
+can probably be combined.
+
+All the logic is now in useRecording hook, which computes all the information to
+be displayed by the UI and passes that to the components.
+
+Runs are now saved to the database, but there is no way to see what is in the database.
+
+Want to work on Activities list next.
+
+Significant UI work still remains. Might be worth looking into some component
+libraries.
+
+TODO:
+
+1. Add Activities tab, where previous runs are fetched from the database and
+   one card per activity is displayed.
+
+2. Improve UI
+
+3. Light Mode/ Dark Mode

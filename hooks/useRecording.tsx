@@ -8,6 +8,7 @@ import {
   computeDuration,
   computePace,
 } from "@/utils/RouteUtils";
+import { Route } from "@/types";
 
 const START_COUNT = 3;
 
@@ -19,9 +20,9 @@ export const useRecording = () => {
   const [isPaused, setisPaused] = useState(false);
 
   // Track the exact time the recording started
-  const [recordingStartTime, setRecordingStartTime] = useState<number | null>(
-    null,
-  );
+  const [recordingStartTime, setRecordingStartTime] = useState<
+    number | null
+  >(null);
   const [elapsedTime, setElapsedTime] = useState<number>(0);
   const [pace, setPace] = useState<number>(0);
 
@@ -29,6 +30,18 @@ export const useRecording = () => {
     Location.LocationObject[]
   >([]);
   const [distance, setDistance] = useState<number>(0);
+
+  const resetAllState = () => {
+    setIsCountingDown(false);
+    setCurrentCountdown(START_COUNT);
+    setIsRecording(false);
+    setisPaused(false);
+    setRecordingStartTime(null);
+    setElapsedTime(0);
+    setPace(0);
+    setCurrentRunLocationList([]);
+    setDistance(0);
+  };
 
   const {
     getAllRoutes,
@@ -75,12 +88,28 @@ export const useRecording = () => {
   };
 
   const onStopClick = () => {
-    setIsRecording(false);
-    setisPaused(false);
-    setIsCountingDown(false);
-    setCurrentCountdown(START_COUNT);
+    // Stop GPS
     stopTracking();
-    setRecordingStartTime(null);
+
+    // Format the run's data so we can save it to the database
+    let route: Route = {
+      start_time: recordingStartTime ? recordingStartTime : 0,
+      duration: elapsedTime,
+      distance: distance,
+      pace: pace,
+    };
+
+    saveRouteWithPoints(
+      route,
+      currentRunLocationList.map((x) => {
+        return {
+          timestamp: x.timestamp,
+          latitude: x.coords.latitude,
+          longitude: x.coords.longitude,
+        };
+      }),
+    );
+    resetAllState();
   };
 
   const handleCountdown = () => {
@@ -114,11 +143,15 @@ export const useRecording = () => {
   useEffect(handleCountdown, [isCountingDown]);
 
   const handleTime = () => {
-    if (isRecording && !isPaused) {
+    if (!isRecording || isPaused) return;
+
+    const interval = setInterval(() => {
       setElapsedTime(computeDuration(recordingStartTime));
-    }
+    }, 1000); // update every 1s — adjust if needed
+
+    return () => clearInterval(interval);
   };
-  useEffect(handleTime, [isRecording, isPaused, elapsedTime]);
+  useEffect(handleTime, [isRecording, isPaused, recordingStartTime]);
 
   const handlePace = () => {
     if (distance > 0) {

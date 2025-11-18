@@ -22,17 +22,12 @@ export default function Recording() {
 
   // Format data for display
   const distanceKm = distance / 1000;
-  const elapsedMinutes = Math.floor(elapsedTime / 1000 / 60);
-  const elapsedSeconds = Math.floor((elapsedTime / 1000) % 60);
-  const paceMinutes = Math.floor(pace);
-  const paceSeconds = Math.round((pace - paceMinutes) * 60);
+  const elapsedTimeSeconds = elapsedTime / 1000;
 
   const liveRunStats = {
     distanceKm,
-    elapsedMinutes,
-    elapsedSeconds,
-    paceMinutes,
-    paceSeconds,
+    elapsedTime: elapsedTimeSeconds,
+    paceSeconds: pace,
   };
 
   return (

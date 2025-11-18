@@ -7,6 +7,14 @@ export interface Point {
   longitude: number;
 }
 
+export interface Route {
+  id?: number;
+  start_time: number;
+  duration: number;
+  distance: number;
+  pace: number;
+}
+
 export interface LocationPoint {
   latitude: number;
   longitude: number;

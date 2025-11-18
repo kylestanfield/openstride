@@ -1,30 +1,29 @@
 // components/LiveRunStats.tsx
+import formatElapsedTime from "@/utils/TimeUtils";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 export type LiveRunStatsProps = {
   distanceKm: number;
-  elapsedMinutes: number;
-  elapsedSeconds: number;
-  paceMinutes: number;
+  elapsedTime: number;
   paceSeconds: number;
 };
 
 export default function LiveRunStats({
   distanceKm,
-  elapsedMinutes,
-  elapsedSeconds,
-  paceMinutes,
+  elapsedTime,
   paceSeconds,
 }: LiveRunStatsProps) {
   return (
     <View style={styles.container}>
-      <Text style={styles.stat}>Distance: {distanceKm} Kilometers</Text>
       <Text style={styles.stat}>
-        Time: {elapsedMinutes}:{elapsedSeconds}
+        Distance: {distanceKm.toFixed(1)} Km
       </Text>
       <Text style={styles.stat}>
-        Pace: {paceMinutes}:{paceSeconds} Minutes per Kilometers
+        Time: {formatElapsedTime(Math.floor(elapsedTime))}
+      </Text>
+      <Text style={styles.stat}>
+        Pace: {formatElapsedTime(Math.floor(paceSeconds))} per Km
       </Text>
     </View>
   );

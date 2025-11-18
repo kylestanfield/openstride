@@ -1,22 +1,7 @@
 // This hook handles SQLite
 
+import { Point, Route } from "@/types";
 import { useSQLiteContext } from "expo-sqlite";
-
-export interface Route {
-  id: number;
-  start_time: number;
-  duration: number;
-  distance: number;
-  pace: number;
-}
-
-export interface Point {
-  id: number;
-  routeId: number;
-  timestamp: number;
-  latitude: number;
-  longitude: number;
-}
 
 export function useRouteRepository() {
   const db = useSQLiteContext();
