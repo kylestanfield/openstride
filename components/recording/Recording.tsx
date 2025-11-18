@@ -7,30 +7,42 @@ import { useRecording } from "@/hooks/useRecording";
 
 export default function Recording() {
   const {
-    isRecording,
     isCountingDown,
     currentCountdown,
-    location,
-    recordingStartTime,
+    isRecording,
+    isPaused,
     errorMsg,
-    isTracking,
-    route,
+    distance,
+    elapsedTime,
+    pace,
     onRecordClick,
     onPauseClick,
     onStopClick,
   } = useRecording();
+
+  // Format data for display
+  const distanceKm = distance / 1000;
+  const elapsedMinutes = Math.floor(elapsedTime / 1000 / 60);
+  const elapsedSeconds = Math.floor((elapsedTime / 1000) % 60);
+  const paceMinutes = Math.floor(pace);
+  const paceSeconds = Math.round((pace - paceMinutes) * 60);
+
+  const liveRunStats = {
+    distanceKm,
+    elapsedMinutes,
+    elapsedSeconds,
+    paceMinutes,
+    paceSeconds,
+  };
 
   return (
     <View style={styles.recordingView}>
       {isRecording ? (
         <>
           <RunInfo
-            location={location}
-            route={route}
-            isRecording={isRecording}
+            liveRunStats={liveRunStats}
             onPauseClick={onPauseClick}
             onStopClick={onStopClick}
-            startTime={recordingStartTime} // pass startTime to LiveRunStats
           />
         </>
       ) : isCountingDown ? (

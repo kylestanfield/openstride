@@ -1,5 +1,5 @@
-import { gpxToRoute } from "./utils/GpxToRoute.ts";
-import { computeTotalDistance } from "./utils/RouteUtils.ts";
+import { gpxToRoute } from "../utils/GpxToRoute.ts";
+import { computeTotalDistance } from "../utils/RouteUtils.ts";
 
 const testRoute = gpxToRoute("./test.gpx", 10 * 60 * 1000);
 

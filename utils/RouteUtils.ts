@@ -1,4 +1,4 @@
-import { Point } from "./types";
+import { Point } from "../types";
 import { LocationObject } from "expo-location";
 
 interface LatLon {

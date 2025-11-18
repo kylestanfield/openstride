@@ -1,7 +1,7 @@
 import { Text, StyleSheet, View } from "react-native";
 import RecordingFooter from "@/components/recording/RecordingFooter";
 
-type Props = {
+type CountdownProps = {
   count: number;
   onPauseClick: () => void;
   onStopClick: () => void;
@@ -11,7 +11,7 @@ export default function Countdown({
   count,
   onPauseClick,
   onStopClick,
-}: Props) {
+}: CountdownProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Starting</Text>
