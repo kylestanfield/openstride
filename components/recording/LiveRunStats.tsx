@@ -1,47 +1,112 @@
 // components/LiveRunStats.tsx
-import React, { useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { LocationObject } from "expo-location";
 import { haversineDistance } from "@/utils/RouteUtils";
 
 interface LiveRunStatsProps {
   route: LocationObject[];
+  startTime: number; // recording start timestamp
+}
+
+// Normalize LocationObject or Point
+function toLatLon(p: {
+  coords?: { latitude: number; longitude: number };
+  latitude?: number;
+  longitude?: number;
+}) {
+  if (p.coords)
+    return {
+      latitude: p.coords.latitude,
+      longitude: p.coords.longitude,
+    };
+  if (p.latitude !== undefined && p.longitude !== undefined)
+    return { latitude: p.latitude, longitude: p.longitude };
+  throw new Error("Invalid point");
+}
+
+// Smooth route with moving average
+function smoothRoute(
+  route: LocationObject[],
+  window = 3,
+): LocationObject[] {
+  if (route.length < 2) return route;
+  const smoothed: LocationObject[] = [];
+  for (let i = 0; i < route.length; i++) {
+    const start = Math.max(0, i - Math.floor(window / 2));
+    const end = Math.min(route.length - 1, i + Math.floor(window / 2));
+    let latSum = 0,
+      lonSum = 0,
+      count = 0;
+    for (let j = start; j <= end; j++) {
+      latSum += route[j].coords.latitude;
+      lonSum += route[j].coords.longitude;
+      count++;
+    }
+    smoothed.push({
+      ...route[i],
+      coords: {
+        ...route[i].coords,
+        latitude: latSum / count,
+        longitude: lonSum / count,
+      },
+    });
+  }
+  return smoothed;
+}
+
+// Compute total distance with optional noise filtering
+function computeTotalDistance(
+  route: LocationObject[],
+  minDistance = 3,
+): number {
+  if (route.length < 2) return 0;
+  let total = 0;
+  for (let i = 1; i < route.length; i++) {
+    const dist = haversineDistance(
+      toLatLon(route[i - 1]),
+      toLatLon(route[i]),
+    );
+    if (dist >= minDistance) {
+      total += dist;
+    }
+  }
+  return total;
 }
 
 export const LiveRunStats: React.FC<LiveRunStatsProps> = ({
   route,
+  startTime,
 }) => {
-  // Compute total distance (meters)
-  const distance = useMemo(() => {
-    if (route.length < 2) return 0;
-    let total = 0;
-    for (let i = 1; i < route.length; i++) {
-      total += haversineDistance(
-        {
-          latitude: route[i - 1].coords.latitude,
-          longitude: route[i - 1].coords.longitude,
-        },
-        {
-          latitude: route[i].coords.latitude,
-          longitude: route[i].coords.longitude,
-        },
-      );
-    }
-    return total;
-  }, [route]);
+  const [now, setNow] = useState(Date.now());
+
+  // Update 'now' every second
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Smooth route first
+  const smoothedRoute = useMemo(() => smoothRoute(route), [route]);
+
+  // Compute distance (meters)
+  const distance = useMemo(
+    () => computeTotalDistance(smoothedRoute),
+    [smoothedRoute],
+  );
 
   // Compute duration (ms)
-  const duration = useMemo(() => {
-    if (route.length < 2) return 0;
-    return route[route.length - 1].timestamp - route[0].timestamp;
-  }, [route]);
+  const duration = useMemo(
+    () => Math.max(0, now - startTime),
+    [now, startTime],
+  );
 
   // Compute pace (seconds per km)
   const pace = useMemo(() => {
     if (distance === 0) return 0;
-    const durationSec = duration / 1000;
     const distanceKm = distance / 1000;
-    return durationSec / distanceKm; // seconds per km
+    const durationSec = duration / 1000;
+    return durationSec / distanceKm;
   }, [distance, duration]);
 
   // Format duration

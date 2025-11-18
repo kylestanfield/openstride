@@ -9,6 +9,7 @@ type Props = {
   location: Location.LocationObject | null;
   route: Location.LocationObject[]; // added route array
   isRecording: boolean;
+  startTime: number;
 };
 
 export default function RunInfo({
@@ -17,6 +18,7 @@ export default function RunInfo({
   location,
   route,
   isRecording,
+  startTime,
 }: Props) {
   return (
     <View style={styles.container}>
@@ -31,7 +33,10 @@ export default function RunInfo({
 
       {/* Live stats while recording */}
       {isRecording && route.length > 1 && (
-        <LiveRunStats route={route} />
+        <LiveRunStats
+          route={route}
+          startTime={startTime}
+        />
       )}
 
       <RecordingFooter

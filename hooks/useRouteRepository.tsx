@@ -91,7 +91,7 @@ export function useRouteRepository() {
         ]);
 
         await db.runAsync(
-          `INSERT INTO points (route_id, timestamp, latitude, longitude, altitude)
+          `INSERT INTO points (route_id, timestamp, latitude, longitude)
                 VALUES ${placeholders};`,
           values,
         );

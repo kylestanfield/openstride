@@ -11,6 +11,7 @@ export default function Recording() {
     isCountingDown,
     currentCountdown,
     location,
+    recordingStartTime,
     errorMsg,
     isTracking,
     route,
@@ -24,12 +25,13 @@ export default function Recording() {
       {isRecording ? (
         <>
           <RunInfo
+            location={location}
+            route={route}
+            isRecording={isRecording}
             onPauseClick={onPauseClick}
             onStopClick={onStopClick}
-            location={location}
-            isRecording={isRecording}
-            route={route}
-          ></RunInfo>
+            startTime={recordingStartTime} // pass startTime to LiveRunStats
+          />
         </>
       ) : isCountingDown ? (
         <>

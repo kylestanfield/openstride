@@ -1,23 +1,42 @@
-import { Point } from "@/hooks/useRouteRepository";
+import { Point } from "./types";
+import { LocationObject } from "expo-location";
 
 interface LatLon {
   latitude: number;
   longitude: number;
 }
 
-export function computeDuration(points: Point[]): number {
-  if (points.length < 2) return 0;
-  const start = points[0].timestamp;
-  const end = points[points.length - 1].timestamp;
-  return end - start; // in milliseconds, convert if needed
+export function toLatLon(p: {
+  coords?: { latitude: number; longitude: number };
+  latitude?: number;
+  longitude?: number;
+}): LatLon {
+  if (p.coords)
+    return {
+      latitude: p.coords.latitude,
+      longitude: p.coords.longitude,
+    };
+  if (p.latitude !== undefined && p.longitude !== undefined)
+    return { latitude: p.latitude, longitude: p.longitude };
+  throw new Error("Invalid point");
 }
 
-export function computeDistance(points: Point[]): number {
+export function computeDuration(startTime: number | null): number {
+  return startTime ? Date.now() - startTime : 0;
+}
+
+export function computeTotalDistance(
+  route: Array<Point | LocationObject>,
+): number {
+  if (route.length < 2) return 0;
   let total = 0;
-  for (let i = 1; i < points.length; i++) {
-    total += haversineDistance(points[i - 1], points[i]);
+  for (let i = 1; i < route.length; i++) {
+    total += haversineDistance(
+      toLatLon(route[i - 1]),
+      toLatLon(route[i]),
+    );
   }
-  return total; // in meters
+  return total;
 }
 
 // Helper for distance between two points
