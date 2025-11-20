@@ -7,6 +7,8 @@ export interface Point {
   longitude: number;
 }
 
+export type PersistedPoint = Point & { id: number };
+
 export interface Route {
   id?: number;
   start_time: number;
@@ -14,6 +16,8 @@ export interface Route {
   distance: number;
   pace: number;
 }
+
+export type PersistedRoute = Route & { id: number };
 
 export interface LocationPoint {
   latitude: number;

@@ -1,25 +1,25 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
+import { useTheme } from "@/hooks/useTheme";
 
 export default function TabLayout() {
+  const { theme } = useTheme();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#ffd33d",
-        headerStyle: {
-          backgroundColor: "#25292e",
-        },
-        headerShadowVisible: false,
-        headerTintColor: "#fff",
+        tabBarActiveTintColor: theme.colors.primary[600],
+        tabBarInactiveTintColor: theme.colors.neutral[200],
         tabBarStyle: {
-          backgroundColor: "#25292e",
+          backgroundColor: theme.colors.surface,
+          borderTopColor: theme.colors.border,
         },
       }}
     >
       <Tabs.Screen
-        name="run_data"
+        name="activities"
         options={{
-          title: "Stats",
+          title: "Activities",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons

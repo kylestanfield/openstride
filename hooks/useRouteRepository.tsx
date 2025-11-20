@@ -1,6 +1,6 @@
 // This hook handles SQLite
 
-import { Point, Route } from "@/types";
+import { PersistedPoint, PersistedRoute, Point, Route } from "@/types";
 import { useSQLiteContext } from "expo-sqlite";
 
 export function useRouteRepository() {
@@ -8,7 +8,7 @@ export function useRouteRepository() {
 
   return {
     getAllRoutes: async () => {
-      const allRows = await db.getAllAsync<Route>(
+      const allRows = await db.getAllAsync<PersistedRoute>(
         `SELECT * FROM routes ORDER BY start_time DESC;`,
       );
       return allRows;
@@ -23,12 +23,12 @@ export function useRouteRepository() {
     },
 
     getRouteWithPoints: async (routeId: number) => {
-      const route = await db.getFirstAsync<Route>(
+      const route = await db.getFirstAsync<PersistedRoute>(
         `SELECT * FROM routes WHERE id = ?;`,
         [routeId],
       );
 
-      const points = await db.getAllAsync<Point>(
+      const points = await db.getAllAsync<PersistedPoint>(
         `SELECT * FROM points WHERE route_id = ? ORDER BY timestamp ASC;`,
         [routeId],
       );

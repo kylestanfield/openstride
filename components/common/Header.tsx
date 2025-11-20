@@ -1,48 +1,46 @@
+import { useTheme } from "@/context/ThemeContext";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function Header() {
+  const { theme } = useTheme();
+  const styles = StyleSheet.create({
+    headerContainer: {
+      width: "100%",
+
+      backgroundColor: theme.colors.surface,
+
+      paddingTop: theme.spacing[16],
+      paddingBottom: theme.spacing[1],
+
+      borderBottomColor: theme.colors.border,
+      borderBottomWidth: 1,
+
+      display: "flex",
+      flexDirection: "row",
+    },
+    headerIcon: {
+      paddingTop: theme.spacing[2],
+      paddingLeft: theme.spacing[4],
+    },
+
+    titleText: {
+      color: theme.colors.text.primary,
+      fontSize: theme.typography.size["3xl"],
+
+      marginLeft: theme.spacing[4],
+    },
+  });
+
   return (
     <View style={styles.headerContainer}>
       <FontAwesome6
         name="person-running"
         size={32}
-        color="white"
+        color={theme.colors.primary[500]}
         style={styles.headerIcon}
       />
       <Text style={styles.titleText}>OpenStride</Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    width: "100%",
-
-    backgroundColor: "#1E2226",
-
-    marginLeft: 8,
-    marginTop: 20,
-    marginRight: 8,
-    marginBottom: 0,
-
-    paddingTop: 40,
-    paddingBottom: 3,
-
-    borderBottomColor: "#8e99a5ff",
-    borderBottomWidth: 1,
-
-    display: "flex",
-    flexDirection: "row",
-  },
-  headerIcon: {
-    paddingLeft: 15,
-  },
-  titleText: {
-    color: "#fff",
-    width: "100%",
-    fontSize: 32,
-
-    marginLeft: 15,
-  },
-});

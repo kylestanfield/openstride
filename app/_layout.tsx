@@ -1,10 +1,7 @@
+import { ThemeProvider } from "@/context/ThemeContext";
 import { StorageService } from "@/services/StorageService";
 import { Stack } from "expo-router";
-import {
-  SQLiteProvider,
-  useSQLiteContext,
-  type SQLiteDatabase,
-} from "expo-sqlite";
+import { SQLiteProvider } from "expo-sqlite";
 
 export default function RootLayout() {
   return (
@@ -12,12 +9,14 @@ export default function RootLayout() {
       databaseName="openstride.db"
       onInit={StorageService.initIfNeeded}
     >
-      <Stack>
-        <Stack.Screen
-          name="(tabs)"
-          options={{ headerShown: false }}
-        />
-      </Stack>
+      <ThemeProvider>
+        <Stack>
+          <Stack.Screen
+            name="(tabs)"
+            options={{ headerShown: false }}
+          />
+        </Stack>
+      </ThemeProvider>
     </SQLiteProvider>
   );
 }

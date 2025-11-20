@@ -1,5 +1,6 @@
+import { useTheme } from "@/context/ThemeContext";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Text, View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 
 type Props = {
   onPauseClick: () => void;
@@ -10,46 +11,71 @@ export default function RecordingFooter({
   onPauseClick,
   onStopClick,
 }: Props) {
+  const { theme } = useTheme();
+
+  const styles = StyleSheet.create({
+    footer: {
+      width: "90%", // Ensures the footer spans the container
+      height: "15%", // Give it a fixed height for touch targets
+
+      backgroundColor: theme.colors.surface,
+
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      alignItems: "center",
+
+      shadowColor: theme.colors.shadow,
+      shadowOpacity: 0.05,
+      shadowRadius: theme.radii.sm,
+
+      borderWidth: 1,
+      borderColor: theme.colors.border,
+      borderRadius: theme.radii.sm, // Optional: rounded corners looks nice for control bars
+    },
+    pressable: {
+      height: "100%",
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    icons: {
+      padding: theme.spacing[2],
+    },
+    divider: {
+      width: 1,
+      height: "80%", // Don't let divider touch the very edges
+      backgroundColor: theme.colors.border,
+    },
+  });
+
   return (
     <View style={styles.footer}>
-      <Pressable onPress={onPauseClick}>
+      <Pressable
+        onPress={onPauseClick}
+        style={styles.pressable}
+      >
         <Ionicons
-          style={styles.buttons}
           name="pause-sharp"
           size={32}
-          color="#fff"
+          color={theme.colors.accent[500]}
+          style={styles.icons}
         ></Ionicons>
       </Pressable>
 
       <View style={styles.divider} />
 
-      <Pressable onPress={onStopClick}>
+      <Pressable
+        onPress={onStopClick}
+        style={styles.pressable}
+      >
         <Ionicons
-          style={styles.buttons}
           name="stop-sharp"
           size={32}
-          color="#fff"
+          color={theme.colors.accent[500]}
+          style={styles.icons}
         ></Ionicons>
       </Pressable>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  footer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    borderWidth: 1,
-    borderColor: "#9392bdff",
-  },
-  buttons: {
-    // borderWidth: 1,
-    // borderColor: "#fff",
-  },
-  divider: {
-    width: 1,
-    height: "100%",
-    backgroundColor: "#9392bdff",
-  },
-});
