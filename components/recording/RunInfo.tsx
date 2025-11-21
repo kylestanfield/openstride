@@ -9,12 +9,14 @@ type Props = {
   liveRunStats: LiveRunStatsProps;
   onPauseClick: () => void;
   onStopClick: () => void;
+  isRecording: boolean;
 };
 
 export default function RunInfo({
   liveRunStats,
   onPauseClick,
   onStopClick,
+  isRecording,
 }: Props) {
   const { theme } = useTheme();
 
@@ -30,36 +32,12 @@ export default function RunInfo({
       paddingHorizontal: theme.spacing[4],
       backgroundColor: theme.colors.background,
     },
-
-    text: {
-      color: theme.colors.text.primary,
-
-      marginTop: theme.spacing[6],
-      marginBottom: theme.spacing[4],
-
-      paddingTop: theme.spacing[4],
-
-      fontSize: theme.typography.size.lg,
-      fontWeight: "500",
-    },
-    flavorText: {
-      color: theme.colors.text.secondary,
-      fontSize: theme.typography.size.md,
-      fontWeight: "400",
-    },
   });
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Recording Started</Text>
-
       {/* Live stats while recording */}
       <LiveRunStats {...liveRunStats} />
-
-      <RecordingFooter
-        onPauseClick={onPauseClick}
-        onStopClick={onStopClick}
-      />
     </View>
   );
 }

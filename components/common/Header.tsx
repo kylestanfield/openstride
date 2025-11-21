@@ -28,7 +28,7 @@ export default function Header() {
       color: theme.colors.text.primary,
       fontSize: theme.typography.size["3xl"],
 
-      marginLeft: theme.spacing[4],
+      marginLeft: theme.spacing[2],
     },
   });
 

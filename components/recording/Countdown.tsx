@@ -41,9 +41,9 @@ export default function Countdown({
 
   const styles = StyleSheet.create({
     container: {
-      flex: 1,
       width: "100%",
       justifyContent: "center",
+      alignItems: "center",
       backgroundColor: theme.colors.background,
     },
     countdownText: {
@@ -60,7 +60,6 @@ export default function Countdown({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Starting</Text>
       <Animated.Text
         style={[
           styles.countdownText,
@@ -70,12 +69,6 @@ export default function Countdown({
         {count}
       </Animated.Text>
       {/* Wrap footer to ensure width consistency */}
-      <View style={{ width: "100%" }}>
-        <RecordingFooter
-          onPauseClick={onPauseClick}
-          onStopClick={onStopClick}
-        />
-      </View>
     </View>
   );
 }

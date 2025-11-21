@@ -18,7 +18,7 @@ export default function ActivityCard({ route }: Props) {
       borderBottomWidth: 1,
       borderColor: theme.colors.border,
       paddingVertical: theme.spacing[4],
-      rowGap: theme.spacing[3],
+      rowGap: theme.spacing[4],
     },
 
     row: {
@@ -40,7 +40,7 @@ export default function ActivityCard({ route }: Props) {
 
     date: {
       color: theme.colors.text.secondary,
-      fontSize: theme.typography.size.md,
+      fontSize: theme.typography.size.sm,
     },
 
     iconpair: {
@@ -50,12 +50,12 @@ export default function ActivityCard({ route }: Props) {
     },
 
     distance: {
-      color: theme.colors.text.primary,
+      color: theme.colors.text.secondary,
       fontSize: theme.typography.size.sm,
     },
 
     time: {
-      color: theme.colors.text.primary,
+      color: theme.colors.text.secondary,
       fontSize: theme.typography.size.sm,
     },
   });

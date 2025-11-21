@@ -29,6 +29,5 @@ export const useActivities = () => {
 
   return {
     isLoading,
-    routeList,
   };
 };

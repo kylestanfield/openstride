@@ -20,12 +20,15 @@ export default function TabLayout() {
         name="activities"
         options={{
           title: "Activities",
+          tabBarLabelStyle: {
+            fontSize: theme.typography.size.xs,
+          },
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "bar-chart-sharp" : "bar-chart-outline"}
               color={color}
-              size={24}
+              size={26}
             />
           ),
         }}
@@ -34,6 +37,9 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Record",
+          tabBarLabelStyle: {
+            fontSize: theme.typography.size.xs,
+          },
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
@@ -43,7 +49,7 @@ export default function TabLayout() {
                   : "radio-button-on-outline"
               }
               color={color}
-              size={24}
+              size={26}
             />
           ),
         }}
@@ -52,12 +58,15 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: "Settings",
+          tabBarLabelStyle: {
+            fontSize: theme.typography.size.xs,
+          },
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? "settings-sharp" : "settings-outline"}
               color={color}
-              size={24}
+              size={26}
             />
           ),
         }}

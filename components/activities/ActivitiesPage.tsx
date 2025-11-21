@@ -14,11 +14,11 @@ export default function ActivitiesPage() {
     },
   });
 
-  const { isLoading, routeList } = useActivities();
+  const { isLoading } = useActivities();
 
   return (
     <View style={styles.container}>
-      <ActivityList routeList={routeList} />
+      <ActivityList />
     </View>
   );
 }

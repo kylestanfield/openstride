@@ -9,6 +9,7 @@ import {
   computePace,
 } from "@/utils/RouteUtils";
 import { Route } from "@/types";
+import { useRoutes } from "@/context/RouteContext";
 
 const START_COUNT = 3;
 
@@ -87,28 +88,27 @@ export const useRecording = () => {
     setIsCountingDown(false);
   };
 
-  const onStopClick = () => {
-    // Stop GPS
+  const { addRoute } = useRoutes(); // <-- use context instead of repo directly
+
+  const onStopClick = async () => {
     stopTracking();
 
-    // Format the run's data so we can save it to the database
-    let route: Route = {
-      start_time: recordingStartTime ? recordingStartTime : 0,
+    if (!recordingStartTime) return;
+
+    const route: Route = {
+      start_time: recordingStartTime,
       duration: elapsedTime,
-      distance: distance,
-      pace: pace,
+      distance,
+      pace,
     };
 
-    saveRouteWithPoints(
-      route,
-      currentRunLocationList.map((x) => {
-        return {
-          timestamp: x.timestamp,
-          latitude: x.coords.latitude,
-          longitude: x.coords.longitude,
-        };
-      }),
-    );
+    const points = currentRunLocationList.map((x) => ({
+      timestamp: x.timestamp,
+      latitude: x.coords.latitude,
+      longitude: x.coords.longitude,
+    }));
+
+    await addRoute(route, points); // pass points separately
     resetAllState();
   };
 

@@ -89,3 +89,9 @@ also look into changing the color of the recording button
 7. Fix Main page UI, before recording is started
 
 8. Fix countdown UI
+
+9. Make GPS tracking work in the background
+
+10. Background color in light mode looks a bit ugly. Maybe changing it and adding a gradient would look better.
+
+11. Apple health integration using https://github.com/kingstinct/react-native-healthkit

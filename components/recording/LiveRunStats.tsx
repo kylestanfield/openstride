@@ -20,18 +20,13 @@ export default function LiveRunStats({
   const styles = StyleSheet.create({
     container: {
       width: "100%",
-
       padding: theme.spacing[6],
-
       backgroundColor: theme.colors.surface,
-
       borderRadius: theme.radii.lg,
-
       shadowColor: theme.colors.shadow,
       shadowOpacity: 0.1,
       shadowRadius: theme.radii.xl,
       elevation: 3,
-
       margin: theme.spacing[4],
       marginBottom: theme.spacing[8],
     },
@@ -39,20 +34,19 @@ export default function LiveRunStats({
     grid: {
       flexDirection: "row",
       flexWrap: "wrap",
-      justifyContent: "center",
-      gap: theme.spacing[4], // Controls spacing between cells
+      justifyContent: "space-between",
       rowGap: theme.spacing[8],
     },
 
     cell: {
-      width: "45%", // Forces exactly 2 columns
+      flexBasis: "48%", // Perfect 2 columns
     },
 
     labelRow: {
       flexDirection: "row",
-      justifyContent: "center",
       alignItems: "center",
-      marginBottom: theme.spacing[2],
+      justifyContent: "flex-start", // <— prevents shifting due to label width
+      marginBottom: theme.spacing[1],
     },
 
     icon: {
@@ -60,16 +54,15 @@ export default function LiveRunStats({
     },
 
     label: {
-      alignSelf: "baseline",
       fontSize: theme.typography.size.md,
       color: theme.colors.text.secondary,
     },
 
     value: {
-      fontSize: theme.typography.size.lg,
-      fontWeight: "400",
+      fontSize: theme.typography.size.md,
       color: theme.colors.text.primary,
-      paddingLeft: theme.spacing[1],
+      textAlign: "left", // Common in fitness dashboards
+      paddingLeft: theme.spacing[7],
     },
   });
 
@@ -81,13 +74,13 @@ export default function LiveRunStats({
           <View style={styles.labelRow}>
             <Ionicons
               name="walk-outline"
-              size={18}
+              size={20}
               color={theme.colors.primary[500]}
               style={styles.icon}
             />
             <Text style={styles.label}>Distance</Text>
           </View>
-          <Text style={styles.value}>{distanceKm.toFixed(2)} km</Text>
+          <Text style={styles.value}>{distanceKm.toFixed(1)} km</Text>
         </View>
 
         {/* Time */}
@@ -95,7 +88,7 @@ export default function LiveRunStats({
           <View style={styles.labelRow}>
             <Ionicons
               name="time-outline"
-              size={18}
+              size={20}
               color={theme.colors.primary[500]}
               style={styles.icon}
             />
@@ -111,7 +104,7 @@ export default function LiveRunStats({
           <View style={styles.labelRow}>
             <Ionicons
               name="speedometer-outline"
-              size={18}
+              size={20}
               color={theme.colors.primary[500]}
               style={styles.icon}
             />

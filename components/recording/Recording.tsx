@@ -5,6 +5,7 @@ import Countdown from "@/components/recording/Countdown";
 import RunInfo from "@/components/recording/RunInfo";
 import { useRecording } from "@/hooks/useRecording";
 import { useTheme } from "@/context/ThemeContext";
+import RecordingFooter from "./RecordingFooter";
 
 export default function Recording() {
   const { theme } = useTheme();
@@ -57,7 +58,8 @@ export default function Recording() {
 
     text: {
       color: theme.colors.text.primary,
-      marginTop: theme.spacing[6],
+      marginTop: theme.spacing[8],
+      marginBottom: theme.spacing[8],
       fontSize: theme.typography.size["xl"],
     },
   });
@@ -65,32 +67,46 @@ export default function Recording() {
   return (
     <View style={styles.recordingView}>
       {isRecording ? (
-        <RunInfo
-          liveRunStats={liveRunStats}
-          onPauseClick={onPauseClick}
-          onStopClick={onStopClick}
-        />
+        <Text style={styles.text}>Recording Started</Text>
       ) : isCountingDown ? (
+        <Text style={styles.text}>Starting</Text>
+      ) : (
+        <Text style={styles.text}>Press Below To Start Recording</Text>
+      )}
+      <RunInfo
+        liveRunStats={liveRunStats}
+        onPauseClick={onPauseClick}
+        onStopClick={onStopClick}
+        isRecording={isRecording}
+      />
+      {isCountingDown && (
         <Countdown
           count={currentCountdown}
           onPauseClick={onPauseClick}
           onStopClick={onStopClick}
         />
+      )}
+      {isRecording ? (
+        <RecordingFooter
+          onPauseClick={onPauseClick}
+          onStopClick={onStopClick}
+        />
       ) : (
-        // Wrapped this in a container to match Countdown/RunInfo structure
-        <View style={styles.stateContainer}>
-          <Text style={styles.text}>Start Recording</Text>
-          <View style={styles.startBtnContainer}>
-            <Button
-              label=""
-              theme="primary"
-              iconName="radio-button-on-sharp"
-              iconSize={100}
-              iconColor={theme.colors.accent[700]}
-              clickFunction={onRecordClick}
-            />
+        !isCountingDown && (
+          // Wrapped this in a container to match Countdown/RunInfo structure
+          <View style={styles.stateContainer}>
+            <View style={styles.startBtnContainer}>
+              <Button
+                label=""
+                theme="primary"
+                iconName="radio-button-on-sharp"
+                iconSize={100}
+                iconColor={theme.colors.accent[700]}
+                clickFunction={onRecordClick}
+              />
+            </View>
           </View>
-        </View>
+        )
       )}
     </View>
   );
