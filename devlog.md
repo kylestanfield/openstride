@@ -63,3 +63,29 @@ TODO:
 2. Improve UI
 
 3. Light Mode/ Dark Mode
+
+11/19/2025
+
+Added light mode/dark mode.
+
+Created Previous Activities tab.
+
+TODO:
+
+1. Make each activity card wrapped in Pressable, clicking it takes to page for individual activity with a map of the route
+
+2. Make sure that both light mode and dark mode look good. Hardcoding use of individual values of primary/accent/neutral doesn't work super well, since they look different on light and dark background
+
+also look into changing the color of the recording button
+
+3. Work on smoothing out distance calculations from the routes
+
+4. Add a setting for miles/kms
+
+5. Create the stats page
+
+6. Make sure the Activities List isn't going under the footer with different tabs. Hard to know why it isn't all fitting.
+
+7. Fix Main page UI, before recording is started
+
+8. Fix countdown UI

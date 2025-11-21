@@ -45,6 +45,8 @@ export const lightColors = {
     900: "#111827",
   },
 
+  inactiveTab: "#D1D5DB", // neutral 300
+
   error: "#EF4444",
 
   text: {
@@ -77,6 +79,8 @@ export const darkColors = {
     800: "#0A1017",
     900: "#04070B",
   },
+
+  inactiveTab: "#757F8C", // neutral 200
 
   error: "#F87171",
 

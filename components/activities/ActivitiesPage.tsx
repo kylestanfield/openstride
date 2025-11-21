@@ -9,7 +9,7 @@ export default function ActivitiesPage() {
   const styles = StyleSheet.create({
     container: {
       width: "100%",
-      height: "100%",
+      height: "85%",
       backgroundColor: theme.colors.background,
     },
   });
