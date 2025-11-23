@@ -19,18 +19,23 @@ export const useGpsTracking = () => {
     }
 
     setErrorMsg(null);
-    const options: Location.LocationOptions = {
-      accuracy: Location.Accuracy.BestForNavigation, // use the best accuracy available for GPS
-      distanceInterval: 5, // only receive updates every 5 meters
-      timeInterval: 1000, // Only update every second (might only work on Android..)
-    };
-    const subscription = await Location.watchPositionAsync(
-      options,
-      (newLocation) => {
-        setLocation(newLocation);
-      },
-    );
-    setLocationSubscription(subscription);
+    try {
+      const options: Location.LocationOptions = {
+        accuracy: Location.Accuracy.High, // use high accuracy
+        distanceInterval: 5, // only receive updates every 5 meters
+        timeInterval: 5000, // Only update every 5 seconds
+      };
+      const subscription = await Location.watchPositionAsync(
+        options,
+        (newLocation) => {
+          setLocation(newLocation);
+        },
+      );
+      setLocationSubscription(subscription);
+    } catch (error) {
+      setErrorMsg("Failed to start location tracking.");
+      console.error(error); // In a real app, you'd log this to Sentry or another error reporting service.
+    }
   };
 
   const stopTracking = () => {

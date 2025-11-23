@@ -7,33 +7,8 @@ import { useRecording } from "@/hooks/useRecording";
 import { useTheme } from "@/context/ThemeContext";
 import RecordingFooter from "./RecordingFooter";
 
-export default function Recording() {
-  const { theme } = useTheme();
-
-  const {
-    isCountingDown,
-    currentCountdown,
-    isRecording,
-    isPaused,
-    errorMsg,
-    distance,
-    elapsedTime,
-    pace,
-    onRecordClick,
-    onPauseClick,
-    onStopClick,
-  } = useRecording();
-
-  const liveRunStats = useMemo(
-    () => ({
-      distanceKm: distance / 1000,
-      elapsedTime: elapsedTime / 1000,
-      paceSeconds: pace,
-    }),
-    [distance, elapsedTime, pace],
-  );
-
-  const styles = StyleSheet.create({
+const createStyles = (theme: any) =>
+  StyleSheet.create({
     recordingView: {
       width: "100%",
       height: "100%",
@@ -63,6 +38,34 @@ export default function Recording() {
       fontSize: theme.typography.size["xl"],
     },
   });
+
+export default function Recording() {
+  const { theme } = useTheme();
+
+  const {
+    isCountingDown,
+    currentCountdown,
+    isRecording,
+    isPaused,
+    errorMsg,
+    distance,
+    elapsedTime,
+    pace,
+    onRecordClick,
+    onPauseClick,
+    onStopClick,
+  } = useRecording();
+
+  const liveRunStats = useMemo(
+    () => ({
+      distanceKm: distance / 1000,
+      elapsedTime: elapsedTime / 1000,
+      paceSeconds: pace,
+    }),
+    [distance, elapsedTime, pace],
+  );
+
+  const styles = useMemo(() => createStyles(theme), [theme]);
 
   return (
     <View style={styles.recordingView}>

@@ -1,6 +1,6 @@
 import { useTheme } from "@/context/ThemeContext";
 import formatElapsedTime from "@/utils/TimeUtils";
-import React from "react";
+import React, { useMemo } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -10,14 +10,8 @@ export type LiveRunStatsProps = {
   paceSeconds: number;
 };
 
-export default function LiveRunStats({
-  distanceKm,
-  elapsedTime,
-  paceSeconds,
-}: LiveRunStatsProps) {
-  const { theme } = useTheme();
-
-  const styles = StyleSheet.create({
+const createStyles = (theme: any) =>
+  StyleSheet.create({
     container: {
       width: "100%",
       padding: theme.spacing[6],
@@ -66,69 +60,77 @@ export default function LiveRunStats({
     },
   });
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.grid}>
-        {/* Distance */}
-        <View style={styles.cell}>
-          <View style={styles.labelRow}>
-            <Ionicons
-              name="walk-outline"
-              size={20}
-              color={theme.colors.primary[500]}
-              style={styles.icon}
-            />
-            <Text style={styles.label}>Distance</Text>
-          </View>
-          <Text style={styles.value}>{distanceKm.toFixed(1)} km</Text>
-        </View>
+const LiveRunStats = React.memo(
+  ({ distanceKm, elapsedTime, paceSeconds }: LiveRunStatsProps) => {
+    const { theme } = useTheme();
+    const styles = useMemo(() => createStyles(theme), [theme]);
 
-        {/* Time */}
-        <View style={styles.cell}>
-          <View style={styles.labelRow}>
-            <Ionicons
-              name="time-outline"
-              size={20}
-              color={theme.colors.primary[500]}
-              style={styles.icon}
-            />
-            <Text style={styles.label}>Time</Text>
+    return (
+      <View style={styles.container}>
+        <View style={styles.grid}>
+          {/* Distance */}
+          <View style={styles.cell}>
+            <View style={styles.labelRow}>
+              <Ionicons
+                name="walk-outline"
+                size={20}
+                color={theme.colors.primary[500]}
+                style={styles.icon}
+              />
+              <Text style={styles.label}>Distance</Text>
+            </View>
+            <Text style={styles.value}>{distanceKm.toFixed(1)} km</Text>
           </View>
-          <Text style={styles.value}>
-            {formatElapsedTime(Math.floor(elapsedTime))}
-          </Text>
-        </View>
 
-        {/* Pace */}
-        <View style={styles.cell}>
-          <View style={styles.labelRow}>
-            <Ionicons
-              name="speedometer-outline"
-              size={20}
-              color={theme.colors.primary[500]}
-              style={styles.icon}
-            />
-            <Text style={styles.label}>Pace</Text>
+          {/* Time */}
+          <View style={styles.cell}>
+            <View style={styles.labelRow}>
+              <Ionicons
+                name="time-outline"
+                size={20}
+                color={theme.colors.primary[500]}
+                style={styles.icon}
+              />
+              <Text style={styles.label}>Time</Text>
+            </View>
+            <Text style={styles.value}>
+              {formatElapsedTime(Math.floor(elapsedTime))}
+            </Text>
           </View>
-          <Text style={styles.value}>
-            {formatElapsedTime(Math.floor(paceSeconds))}/km
-          </Text>
-        </View>
 
-        {/* Elevation */}
-        <View style={styles.cell}>
-          <View style={styles.labelRow}>
-            <Ionicons
-              name="trending-up-outline"
-              size={20}
-              color={theme.colors.primary[500]}
-              style={styles.icon}
-            />
-            <Text style={styles.label}>Elevation</Text>
+          {/* Pace */}
+          <View style={styles.cell}>
+            <View style={styles.labelRow}>
+              <Ionicons
+                name="speedometer-outline"
+                size={20}
+                color={theme.colors.primary[500]}
+                style={styles.icon}
+              />
+              <Text style={styles.label}>Pace</Text>
+            </View>
+            <Text style={styles.value}>
+              {formatElapsedTime(Math.floor(paceSeconds))}/km
+            </Text>
           </View>
-          <Text style={styles.value}>—</Text>
+
+          {/* Elevation */}
+          <View style={styles.cell}>
+            <View style={styles.labelRow}>
+              <Ionicons
+                name="trending-up-outline"
+                size={20}
+                color={theme.colors.primary[500]}
+                style={styles.icon}
+              />
+              <Text style={styles.label}>Elevation</Text>
+            </View>
+            <Text style={styles.value}>—</Text>
+          </View>
         </View>
       </View>
-    </View>
-  );
-}
+    );
+  },
+);
+
+export default LiveRunStats;

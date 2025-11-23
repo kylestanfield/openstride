@@ -1,4 +1,6 @@
 // utils/gpxToRoute.ts
+// NOTE: This file is for testing purposes only and should not be used in the production app.
+// It uses the Node.js 'fs' module, which is not available in the React Native environment.
 import { XMLParser } from "fast-xml-parser";
 import * as Location from "expo-location";
 import fs from "fs";
@@ -21,6 +23,7 @@ export function gpxToRoute(
   const parser = new XMLParser({
     ignoreAttributes: false,
     attributeNamePrefix: "",
+    parseAttributeValue: true,
   });
 
   const gpxData = parser.parse(gpxString);
