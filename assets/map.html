@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+      html,
+      body,
+      #map {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script>
+      const handleMessage = (event) => {
+        const coords = JSON.parse(event.data);
+        console.log("coords in WebView:", coords);
+
+        if (!coords || coords.length === 0) return;
+
+        const latlngs = coords.map((c) => [c.latitude, c.longitude]);
+        console.log("latlngs:", latlngs);
+
+        const map = L.map("map").setView(latlngs[0], 14);
+
+        L.tileLayer(
+          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        ).addTo(map);
+        L.polyline(latlngs, { color: "blue" }).addTo(map);
+        map.fitBounds(latlngs);
+      };
+      document.addEventListener("message", handleMessage);
+      window.addEventListener("message", handleMessage);
+    </script>
+  </body>
+</html>

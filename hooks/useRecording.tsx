@@ -3,11 +3,7 @@ import { useGpsTracking } from "@/hooks/useGpsTracking";
 import { useRouteRepository } from "./useRouteRepository";
 
 import * as Location from "expo-location";
-import {
-  haversineDistance,
-  computeDuration,
-  computePace,
-} from "@/utils/RouteUtils";
+import { computePace } from "@/utils/RouteUtils";
 import { Route } from "@/types";
 import { useRoutes } from "@/context/RouteContext";
 
@@ -44,14 +40,6 @@ export const useRecording = () => {
     setDistance(0);
   };
 
-  const {
-    getAllRoutes,
-    createRoute,
-    getRouteWithPoints,
-    deleteRoute,
-    saveRouteWithPoints,
-  } = useRouteRepository();
-
   const { location, errorMsg, startTracking, stopTracking } =
     useGpsTracking();
 
@@ -62,12 +50,10 @@ export const useRecording = () => {
         if (updatedList.length > 1) {
           let prevPoint = updatedList.at(-2);
           if (prevPoint) {
-            setDistance(
-              distance +
-                haversineDistance(prevPoint.coords, location.coords),
-            );
+            setDistance(distance + 1);
           }
         }
+        console.log("GPS locations:", currentRunLocationList);
         return updatedList;
       });
     }
@@ -146,7 +132,7 @@ export const useRecording = () => {
     if (!isRecording || isPaused) return;
 
     const interval = setInterval(() => {
-      setElapsedTime(computeDuration(recordingStartTime));
+      setElapsedTime(recordingStartTime ?? 0);
     }, 1000); // update every 1s — adjust if needed
 
     return () => clearInterval(interval);

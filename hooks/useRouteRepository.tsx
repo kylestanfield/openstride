@@ -11,6 +11,7 @@ export function useRouteRepository() {
       const allRows = await db.getAllAsync<PersistedRoute>(
         `SELECT * FROM routes ORDER BY start_time DESC;`,
       );
+      console.log("DEBUG: all routes:", allRows); // <-- debug
       return allRows;
     },
 
@@ -36,6 +37,22 @@ export function useRouteRepository() {
       return { ...route, points };
     },
 
+    dumpDatabase: async () => {
+      const allRoutes = await db.getAllAsync(`SELECT * FROM routes;`);
+      const allPoints = await db.getAllAsync(`SELECT * FROM points;`);
+      console.log("DEBUG: Entire DB dump");
+      console.log("Routes:", allRoutes);
+      console.log("Points:", allPoints);
+    },
+
+    getPoints: async (routeId: number) => {
+      const points = await db.getAllAsync<PersistedPoint>(
+        `SELECT * FROM points WHERE route_id = ? ORDER BY timestamp ASC;`,
+        [routeId],
+      );
+      return points;
+    },
+
     async deleteRoute(routeId: number) {
       await db.execAsync("BEGIN TRANSACTION;");
       try {
@@ -53,6 +70,10 @@ export function useRouteRepository() {
     },
 
     async saveRouteWithPoints(route: Route, points: Point[]) {
+      if (points.length === 0) {
+        console.warn("No points to save for this route.");
+        return -1;
+      }
       await db.execAsync(`BEGIN TRANSACTION;`);
 
       try {

@@ -7,13 +7,7 @@ export const useActivities = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    getAllRoutes,
-    createRoute,
-    getRouteWithPoints,
-    deleteRoute,
-    saveRouteWithPoints,
-  } = useRouteRepository();
+  const { getAllRoutes } = useRouteRepository();
 
   const previous_routes = async () => {
     setIsLoading(true);
