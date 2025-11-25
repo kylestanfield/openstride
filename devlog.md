@@ -95,3 +95,13 @@ also look into changing the color of the recording button
 10. Background color in light mode looks a bit ugly. Maybe changing it and adding a gradient would look better.
 
 11. Apple health integration using https://github.com/kingstinct/react-native-healthkit
+
+11/23/2025
+
+working on getting the page for individual routes to work. not able to get a map to show up via openstreetmap and webview yet. SQL queries for the GPS points is returning an empty array. Need to continue debugging.
+
+TODO:
+
+1. fix sql queries
+
+2. add more tests with Jest
