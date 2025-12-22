@@ -119,7 +119,7 @@ export default function ActivityList() {
         () =>
           router.push({
             // Path to your static screen component (e.g., app/(tabs)/RoutePage.tsx)
-            pathname: "/RoutePage",
+            pathname: "/activities/RoutePage",
             // Pass the item object by stringifying it
             params: { routeData: JSON.stringify(item) },
           } as any) // Type assertion to satisfy TypeScript

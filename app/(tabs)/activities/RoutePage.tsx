@@ -6,9 +6,9 @@ import RouteMap from "@/components/route/RouteMap";
 import { useRouteRepository } from "@/hooks/useRouteRepository";
 import { useSQLiteContext } from "expo-sqlite";
 
-export default async function RoutePage() {
+export default function RoutePage() {
   const { routeData } = useLocalSearchParams();
-  const { getPoints, dumpDatabase } = useRouteRepository();
+  const { getPoints } = useRouteRepository();
   const db = useSQLiteContext();
 
   const route: PersistedRoute | null = useMemo(() => {
@@ -37,8 +37,7 @@ export default async function RoutePage() {
 
     loadPoints();
     console.log("Fetched points:", points);
-    dumpDatabase();
-  }, [route, getPoints]);
+  }, [route]);
 
   if (!route) {
     return (
@@ -67,15 +66,10 @@ export default async function RoutePage() {
           <ActivityIndicator size="large" />
         </View>
       ) : (
-        <>
-          <View style={{ flex: 1 }}>
-            <RouteMap coords={points} />
-          </View>
-          <View style={{ padding: 16 }}>
-            <Text>Distance: {route.distance}</Text>
-            {/* Add more route details here */}
-          </View>
-        </>
+        <View style={{ flex: 1 }}>
+          <RouteMap coords={points} />
+          <Text>Distance: {route.distance}</Text>
+        </View>
       )}
     </View>
   );
