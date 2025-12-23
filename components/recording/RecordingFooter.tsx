@@ -4,12 +4,16 @@ import { View, StyleSheet, Pressable } from "react-native";
 
 type Props = {
   onPauseClick: () => void;
+  onResumeClick: () => void;
   onStopClick: () => void;
+  isPaused: boolean;
 };
 
 export default function RecordingFooter({
   onPauseClick,
+  onResumeClick,
   onStopClick,
+  isPaused,
 }: Props) {
   const { theme } = useTheme();
 
@@ -51,17 +55,31 @@ export default function RecordingFooter({
 
   return (
     <View style={styles.footer}>
-      <Pressable
-        onPress={onPauseClick}
-        style={styles.pressable}
-      >
-        <Ionicons
-          name="pause-sharp"
-          size={32}
-          color={theme.colors.accent[500]}
-          style={styles.icons}
-        ></Ionicons>
-      </Pressable>
+      {!isPaused ? (
+        <Pressable
+          onPress={onPauseClick}
+          style={styles.pressable}
+        >
+          <Ionicons
+            name="pause-sharp"
+            size={32}
+            color={theme.colors.accent[500]}
+            style={styles.icons}
+          />
+        </Pressable>
+      ) : (
+        <Pressable
+          onPress={onResumeClick}
+          style={styles.pressable}
+        >
+          <Ionicons
+            name="play-sharp"
+            size={32}
+            color={theme.colors.accent[500]}
+            style={styles.icons}
+          />
+        </Pressable>
+      )}
 
       <View style={styles.divider} />
 
@@ -74,7 +92,7 @@ export default function RecordingFooter({
           size={32}
           color={theme.colors.accent[500]}
           style={styles.icons}
-        ></Ionicons>
+        />
       </Pressable>
     </View>
   );

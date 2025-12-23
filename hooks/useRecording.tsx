@@ -74,6 +74,10 @@ export const useRecording = () => {
     setIsCountingDown(false);
   };
 
+  const onResumeClick = () => {
+    setisPaused(false);
+  };
+
   const { addRoute } = useRoutes(); // <-- use context instead of repo directly
 
   const onStopClick = async () => {
@@ -154,6 +158,7 @@ export const useRecording = () => {
     errorMsg,
     onRecordClick,
     onPauseClick,
+    onResumeClick,
     onStopClick,
     distance,
     elapsedTime,

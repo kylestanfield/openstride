@@ -64,6 +64,7 @@ export default function Recording() {
     pace,
     onRecordClick,
     onPauseClick,
+    onResumeClick,
     onStopClick,
   } = useRecording();
 
@@ -100,7 +101,9 @@ export default function Recording() {
       {isRecording ? (
         <RecordingFooter
           onPauseClick={onPauseClick}
+          onResumeClick={onResumeClick}
           onStopClick={onStopClick}
+          isPaused={isPaused}
         />
       ) : (
         !isCountingDown && (
