@@ -11,7 +11,6 @@ export function useRouteRepository() {
       const allRows = await db.getAllAsync<PersistedRoute>(
         `SELECT * FROM routes ORDER BY start_time DESC;`,
       );
-      console.log("DEBUG: all routes:", allRows); // <-- debug
       return allRows;
     },
 
@@ -40,9 +39,6 @@ export function useRouteRepository() {
     dumpDatabase: async () => {
       const allRoutes = await db.getAllAsync(`SELECT * FROM routes;`);
       const allPoints = await db.getAllAsync(`SELECT * FROM points;`);
-      console.log("DEBUG: Entire DB dump");
-      console.log("Routes:", allRoutes);
-      console.log("Points:", allPoints);
     },
 
     getPoints: async (routeId: number) => {

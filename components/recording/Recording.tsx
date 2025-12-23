@@ -2,13 +2,24 @@ import React, { useMemo } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import Button from "@/components/common/Button";
 import Countdown from "@/components/recording/Countdown";
-import RunInfo from "@/components/recording/RunInfo";
 import { useRecording } from "@/hooks/useRecording";
 import { useTheme } from "@/context/ThemeContext";
 import RecordingFooter from "./RecordingFooter";
+import LiveRunStats from "./LiveRunStats";
 
 const createStyles = (theme: any) =>
   StyleSheet.create({
+    runStatsView: {
+      width: "85%",
+
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-around",
+      alignItems: "center",
+
+      paddingHorizontal: theme.spacing[4],
+      backgroundColor: theme.colors.background,
+    },
     recordingView: {
       width: "100%",
       height: "100%",
@@ -76,12 +87,9 @@ export default function Recording() {
       ) : (
         <Text style={styles.text}>Press Below To Start Recording</Text>
       )}
-      <RunInfo
-        liveRunStats={liveRunStats}
-        onPauseClick={onPauseClick}
-        onStopClick={onStopClick}
-        isRecording={isRecording}
-      />
+      <View style={styles.runStatsView}>
+        <LiveRunStats {...liveRunStats} />
+      </View>
       {isCountingDown && (
         <Countdown
           count={currentCountdown}
@@ -96,7 +104,6 @@ export default function Recording() {
         />
       ) : (
         !isCountingDown && (
-          // Wrapped this in a container to match Countdown/RunInfo structure
           <View style={styles.stateContainer}>
             <View style={styles.startBtnContainer}>
               <Button
