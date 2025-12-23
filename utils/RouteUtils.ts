@@ -29,7 +29,9 @@ export function applyWeightedMovingAverage(
 ): LocationObject[] {
   if (windowSize < 2 || route.length < windowSize) return route;
   if (weights.length !== windowSize) {
-    console.warn("Weights array length must match windowSize. Using default equal weights.");
+    console.warn(
+      "Weights array length must match windowSize. Using default equal weights.",
+    );
     weights = Array(windowSize).fill(1 / windowSize);
   }
 
@@ -71,17 +73,21 @@ export function computePace(
   distanceMeters: number,
   durationMs: number,
 ): number {
-  const distanceKm = distanceMeters / 1000;
-  const durationMinutes = durationMs / (1000 * 60);
+  const distanceKm = distanceMeters;
+  const durationSeconds = durationMs;
   if (distanceKm === 0) return 0;
-  return durationMinutes / distanceKm; // min/km
+  return durationSeconds / distanceKm; // sec/km
 }
 
 export function computeTotalDistance(
   route: Array<Point | LocationObject>,
 ): number {
   if (route.length < 2) return 0;
-  const smoothedRoute = applyWeightedMovingAverage(route as LocationObject[], 3, [0.2, 0.3, 0.5]);
+  const smoothedRoute = applyWeightedMovingAverage(
+    route as LocationObject[],
+    3,
+    [0.2, 0.3, 0.5],
+  );
   let total = 0;
   for (let i = 1; i < smoothedRoute.length; i++) {
     const p1 = toLatLon(smoothedRoute[i - 1]);

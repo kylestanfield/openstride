@@ -17,23 +17,22 @@ export const useRecording = () => {
   const [isPaused, setisPaused] = useState(false);
 
   // Track the exact time the recording started
-  const [recordingStartTime, setRecordingStartTime] = useState<
-    number | null
-  >(null);
-  const [elapsedTime, setElapsedTime] = useState<number>(0);
-  const [pace, setPace] = useState<number>(0);
+  const [recordingStartTime, setRecordingStartTime] =
+    useState<number>(0);
+  const [elapsedTime, setElapsedTime] = useState<number>(0); // units: ms
+  const [pace, setPace] = useState<number>(0); // units: sec/km
 
   const [currentRunLocationList, setCurrentRunLocationList] = useState<
     Location.LocationObject[]
   >([]);
-  const [distance, setDistance] = useState<number>(0);
+  const [distance, setDistance] = useState<number>(0); // units: meters
 
   const resetAllState = () => {
     setIsCountingDown(false);
     setCurrentCountdown(START_COUNT);
     setIsRecording(false);
     setisPaused(false);
-    setRecordingStartTime(null);
+    setRecordingStartTime(0);
     setElapsedTime(0);
     setPace(0);
     setCurrentRunLocationList([]);
@@ -136,7 +135,8 @@ export const useRecording = () => {
     if (!isRecording || isPaused) return;
 
     const interval = setInterval(() => {
-      setElapsedTime(recordingStartTime ?? 0);
+      setElapsedTime(Date.now() - recordingStartTime);
+      console.log("Elapsed time: ", elapsedTime);
     }, 1000); // update every 1s — adjust if needed
 
     return () => clearInterval(interval);
@@ -145,7 +145,7 @@ export const useRecording = () => {
 
   const handlePace = () => {
     if (distance > 0) {
-      setPace(computePace(distance, elapsedTime));
+      setPace(computePace(distance, elapsedTime)); // computePace returns units of sec/km -- format data in UI
     }
   };
   useEffect(handlePace, [distance, elapsedTime]);

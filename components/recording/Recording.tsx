@@ -71,7 +71,7 @@ export default function Recording() {
   const liveRunStats = useMemo(
     () => ({
       distanceKm: distance / 1000,
-      elapsedTime: elapsedTime / 1000,
+      elapsedTime: elapsedTime,
       paceSeconds: pace,
     }),
     [distance, elapsedTime, pace],
