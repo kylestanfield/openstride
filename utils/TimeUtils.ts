@@ -1,5 +1,4 @@
-export default function formatElapsedTime(totalMs: number) {
-  const totalSeconds = Math.floor(totalMs / 1000);
+export default function formatElapsedTime(totalSeconds: number) {
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;

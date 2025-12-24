@@ -21,7 +21,7 @@ export const useGpsTracking = () => {
     setErrorMsg(null);
     try {
       const options: Location.LocationOptions = {
-        accuracy: Location.Accuracy.High, // use high accuracy
+        accuracy: Location.Accuracy.BestForNavigation, // use high accuracy
         distanceInterval: 5, // only receive updates every 5 meters
         timeInterval: 5000, // Only update every 5 seconds
       };

@@ -94,7 +94,7 @@ const LiveRunStats = React.memo(
               <Text style={styles.label}>Time</Text>
             </View>
             <Text style={styles.value}>
-              {formatElapsedTime(elapsedTime)}
+              {formatElapsedTime(elapsedTime / 1000)}
             </Text>
           </View>
 

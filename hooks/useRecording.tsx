@@ -52,7 +52,6 @@ export const useRecording = () => {
             setDistance(distance + 1);
           }
         }
-        console.log("GPS locations:", currentRunLocationList);
         return updatedList;
       });
     }
@@ -136,7 +135,6 @@ export const useRecording = () => {
 
     const interval = setInterval(() => {
       setElapsedTime(Date.now() - recordingStartTime);
-      console.log("Elapsed time: ", elapsedTime);
     }, 1000); // update every 1s — adjust if needed
 
     return () => clearInterval(interval);
