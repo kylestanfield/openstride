@@ -79,7 +79,7 @@ const LiveRunStats = React.memo(
               />
               <Text style={styles.label}>Distance</Text>
             </View>
-            <Text style={styles.value}>{distanceKm.toFixed(1)} km</Text>
+            <Text style={styles.value}>{distanceKm.toFixed(2)} km</Text>
           </View>
 
           {/* Time */}
@@ -94,7 +94,7 @@ const LiveRunStats = React.memo(
               <Text style={styles.label}>Time</Text>
             </View>
             <Text style={styles.value}>
-              {formatElapsedTime(elapsedTime / 1000)}
+              {formatElapsedTime(Math.floor(elapsedTime / 1000))}
             </Text>
           </View>
 

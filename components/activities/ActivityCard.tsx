@@ -96,7 +96,7 @@ export default function ActivityCard({ route }: Props) {
               color={theme.colors.primary[500]}
             />
             <Text style={styles.time}>
-              {formatElapsedTime(route.duration)}
+              {formatElapsedTime(Math.floor(route.duration / 1000))}
             </Text>
           </View>
         </View>

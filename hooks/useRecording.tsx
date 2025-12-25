@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useGpsTracking } from "@/hooks/useGpsTracking";
 import { useRouteRepository } from "./useRouteRepository";
+import { getDistance } from "geolib"; // Optional: npm install geolib
 
 import * as Location from "expo-location";
 import { computePace } from "@/utils/RouteUtils";
@@ -49,7 +50,19 @@ export const useRecording = () => {
         if (updatedList.length > 1) {
           let prevPoint = updatedList.at(-2);
           if (prevPoint) {
-            setDistance(distance + 1);
+            const newDistance = getDistance(
+              {
+                latitude: prevPoint.coords.latitude,
+                longitude: prevPoint.coords.longitude,
+              },
+              {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              },
+            );
+            if (newDistance > 1) {
+              setDistance((prev) => prev + newDistance);
+            }
           }
         }
         return updatedList;
@@ -94,6 +107,7 @@ export const useRecording = () => {
       timestamp: x.timestamp,
       latitude: x.coords.latitude,
       longitude: x.coords.longitude,
+      elevation: x.coords.altitude,
     }));
 
     await addRoute(route, points); // pass points separately
@@ -143,7 +157,7 @@ export const useRecording = () => {
 
   const handlePace = () => {
     if (distance > 0) {
-      setPace(computePace(distance, elapsedTime)); // computePace returns units of sec/km -- format data in UI
+      setPace(computePace(distance, elapsedTime)); // returns sec/km
     }
   };
   useEffect(handlePace, [distance, elapsedTime]);
