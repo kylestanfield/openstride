@@ -55,16 +55,16 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="stats"
         options={{
-          title: "Settings",
+          title: "stats",
           tabBarLabelStyle: {
             fontSize: theme.typography.size.xs,
           },
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
-              name={focused ? "settings-sharp" : "settings-outline"}
+              name={focused ? "analytics-sharp" : "analytics-outline"}
               color={color}
               size={26}
             />
